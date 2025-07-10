@@ -9,7 +9,8 @@ import particlesFragmentShader from "./shaders/particles/fragment.glsl?raw";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
 function ParticlesModel({
-  glbPath = "/model.glb",
+  // glbPath = "/model.glb",
+  glbPath = "/try.glb",
 }: {
   glbPath?: string;
 }) {
