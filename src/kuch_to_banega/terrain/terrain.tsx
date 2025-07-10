@@ -7,7 +7,7 @@ import {
   useDetectGPU,
 } from "@react-three/drei";
 import * as THREE from "three";
-import { useControls, Leva } from "leva";
+import { useControls } from "leva";
 
 // NOTE: You'll need to install these packages
 import { SUBTRACTION, Evaluator, Brush } from "three-bvh-csg";

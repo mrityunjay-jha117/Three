@@ -58,7 +58,6 @@ function Particle_In_Sphere() {
           depthWrite={false}
           sizeAttenuation={true}
           vertexColors={true}
-          // blending={activeblending}
           size={0.1}
         />
       </points>

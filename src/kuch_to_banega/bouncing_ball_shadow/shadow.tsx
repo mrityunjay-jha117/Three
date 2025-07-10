@@ -57,7 +57,11 @@ function Sphere({ sphereRef }: { sphereRef: React.RefObject<THREE.Mesh> }) {
   );
 }
 
-function SphereShadow({ targetRef }: { targetRef: React.RefObject<THREE.Mesh> }) {
+function SphereShadow({
+  targetRef,
+}: {
+  targetRef: React.RefObject<THREE.Mesh>;
+}) {
   const shadowRef = useRef<THREE.Mesh>(null);
   const alphaMap = useTexture("/textures/9.png");
 
@@ -77,18 +81,15 @@ function SphereShadow({ targetRef }: { targetRef: React.RefObject<THREE.Mesh> })
     const shadow = shadowRef.current;
     if (target && shadow) {
       shadow.position.set(target.position.x, 0.01, target.position.z);
-      (shadow.material as THREE.MeshBasicMaterial).opacity = target.position.y * 0.3;
+      (shadow.material as THREE.MeshBasicMaterial).opacity =
+        target.position.y * 0.3;
     }
   });
 
   return (
     <mesh ref={shadowRef} rotation={[-Math.PI / 2, 0, 0]}>
       <planeGeometry args={[1.5, 1.5]} />
-      <meshBasicMaterial
-        color="black"
-        transparent
-        alphaMap={alphaMap}
-      />
+      <meshBasicMaterial color="black" transparent alphaMap={alphaMap} />
     </mesh>
   );
 }
