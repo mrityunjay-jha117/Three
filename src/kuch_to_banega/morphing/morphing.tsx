@@ -9,8 +9,8 @@ import particlesFragmentShader from "./shaders/particles/fragment.glsl?raw";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
 function ParticlesModel({
-  // glbPath = "/model.glb",
-  glbPath = "/try.glb",
+  glbPath = "/morph.glb",
+  // glbPath = "/try.glb",
 }: {
   glbPath?: string;
 }) {
@@ -73,7 +73,7 @@ function ParticlesModel({
   // Shader uniforms
   const uniforms = useMemo(
     () => ({
-      uSize: { value: 0.2 },
+      uSize: { value: 0.1 },
       uResolution: {
         value: new THREE.Vector2(
           window.innerWidth * window.devicePixelRatio,
@@ -213,7 +213,7 @@ function CanvasWrapper({ glbPath }: { glbPath?: string }) {
   return (
     <>
       <Canvas
-        camera={{ position: [0, 0, 15], fov: 35 }}
+        camera={{ position: [10, 0, 0], fov: 35 }}
         gl={{ antialias: true }}
       >
         <color attach="background" args={[clearColor]} />
