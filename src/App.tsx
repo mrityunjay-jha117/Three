@@ -14,7 +14,9 @@ const WaterScene = lazy(() => import("./kuch_to_banega/raging_sea/raging_sea"));
 const Cofee = lazy(() => import("./kuch_to_banega/buy me a coffee/coffee"));
 const TerrainCanvas = lazy(() => import("./kuch_to_banega/terrain/terrain"));
 const PhysicsGame = lazy(() => import("./kuch_to_banega/game/canvas"));
-
+const RapierPhysics = lazy(
+  () => import("./kuch_to_banega/rapier/RapierPhysics"),
+);
 const modelNames = [
   "3D Text Intro",
   "Buy Me A Coffee",
@@ -24,6 +26,7 @@ const modelNames = [
   "Floating Bubbles",
   "Bouncing Ball Shadow",
   "Physics Game",
+  "Rapier Physics",
 ] as const;
 
 type ModelName = (typeof modelNames)[number];
@@ -40,6 +43,7 @@ const models: Record<
   "Floating Bubbles": Particles,
   "Bouncing Ball Shadow": Shadow,
   "Physics Game": PhysicsGame,
+  "Rapier Physics": RapierPhysics,
 };
 
 export default function App() {
@@ -202,3 +206,4 @@ export default function App() {
     </div>
   );
 }
+
