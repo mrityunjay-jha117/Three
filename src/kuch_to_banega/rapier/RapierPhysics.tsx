@@ -3,15 +3,12 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { RigidBody, Physics, RapierRigidBody } from "@react-three/rapier";
 import * as THREE from "three";
-import { useTexture } from "@react-three/drei";
-import { Decal } from "@react-three/drei";
 
 // Types
 interface BodyProps {
   position: [number, number, number];
   color: number;
   mousePosition: THREE.Vector3;
-  textureUrl?: string;
 }
 
 interface MouseBallProps {
@@ -41,7 +38,6 @@ const PhysicalBody: React.FC<BodyProps> = ({
 }) => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const meshRef = useRef<THREE.Mesh>(null);
-  const logoTexture = useTexture("/textures/10.png");
 
   useFrame(() => {
     if (!rigidBodyRef.current || !meshRef.current) return;
@@ -92,14 +88,7 @@ const PhysicalBody: React.FC<BodyProps> = ({
     >
       <mesh ref={meshRef}>
         <sphereGeometry args={[0.3, 32, 32]} />
-        <meshStandardMaterial color={color} depthTest depthWrite />
-        <Decal
-          map={logoTexture}
-          position={[0, 0, 0.3]}
-          rotation={[0, 0, 0]}
-          scale={0.3}
-          depthTest={true}
-        />
+        <meshLambertMaterial color={color}  />
       </mesh>
     </RigidBody>
   );
@@ -205,14 +194,10 @@ const PhysicsScene: React.FC = () => {
       const color =
         COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
 
-      // Assign the same image to all balls
-      const textureUrl = "/textures/10.png";
-
       bodyArray.push({
         key: i,
         position,
         color,
-        textureUrl,
       });
     }
 
@@ -234,7 +219,6 @@ const PhysicsScene: React.FC = () => {
           position={body.position}
           color={body.color}
           mousePosition={mousePosition}
-          textureUrl={body.textureUrl}
         />
       ))}
 
