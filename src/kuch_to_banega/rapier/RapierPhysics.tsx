@@ -101,7 +101,7 @@ const PhysicalBody: React.FC<BodyProps> = ({
         <sphereGeometry args={[0.25, 16, 16]} />{" "}
         {/* Reduced from 32,32 for better performance */}
         {/* <dodecahedronGeometry args={[0.25, 16]} /> */}
-        <meshBasicMaterial color={color} />
+        <meshLambertMaterial color={color} />
       </mesh>
     </RigidBody>
   );
@@ -126,7 +126,7 @@ const MouseBall: React.FC<MouseBallProps> = ({ mousePosition }) => {
     >
       <mesh>
         <sphereGeometry args={[0.05, 8, 8]} />
-        <meshBasicMaterial color="white" />
+        <meshLambertMaterial color="white" />
       </mesh>
     </RigidBody>
   );
@@ -215,8 +215,10 @@ const PhysicsScene: React.FC = () => {
       {/* Mouse ball */}
       <MouseBall mousePosition={mousePosition} />
 
-      {/* Ambient lighting */}
-      <ambientLight intensity={0.8} />
+      {/* Better lighting for 3D appearance */}
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[10, 10, 5]} intensity={0.8} />
+      <directionalLight position={[-10, -10, -5]} intensity={0.3} />
     </Physics>
   );
 };
@@ -277,7 +279,7 @@ const RapierPhysics: React.FC = () => {
         }}
         scene={{ background: new THREE.Color(0x000000) }}
       >
-        <OrbitControls enableDamping />
+        <OrbitControls enableZoom={false} enableDamping />
         <PhysicsScene />
       </Canvas>
     </div>
