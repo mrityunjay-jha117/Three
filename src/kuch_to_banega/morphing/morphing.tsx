@@ -1,19 +1,14 @@
 import { useRef, useMemo, useEffect } from "react";
 import { Canvas, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import {  useControls, button as levaButton } from "leva";
+import { useControls, button as levaButton } from "leva";
 import * as THREE from "three";
 import gsap from "gsap";
 import particlesVertexShader from "./shaders/particles/vertex.glsl?raw";
 import particlesFragmentShader from "./shaders/particles/fragment.glsl?raw";
 import { DRACOLoader, GLTFLoader } from "three/examples/jsm/Addons.js";
 
-function ParticlesModel({
-  glbPath = "/morph.glb",
-  // glbPath = "/try.glb",
-}: {
-  glbPath?: string;
-}) {
+function ParticlesModel({ glbPath = "/morph.glb" }: { glbPath?: string }) {
   const group = useRef<THREE.Group>(null!);
   const geometry = useRef(new THREE.BufferGeometry()).current;
   const currentRef = useRef(0);
@@ -175,10 +170,16 @@ function ParticlesModel({
     return () => window.removeEventListener("resize", resize);
   }, [uniforms]);
 
-  // Leva controls for color
-  const { colorA, colorB } = useControls("Colors", {
-    colorA: "#ff7300",
-    colorB: "#0091ff",
+  // Leva controls for color and size
+  const { colorA, colorB, particleSize } = useControls("Appearance", {
+    colorA: "#ba5d34",
+    colorB: "#275baa",
+    particleSize: {
+      value: 0.1,
+      min: 0.01,
+      max: 0.5,
+      step: 0.01,
+    },
   });
 
   useEffect(() => {
@@ -187,6 +188,9 @@ function ParticlesModel({
   useEffect(() => {
     uniforms.uColorB.value.set(colorB);
   }, [colorB]);
+  useEffect(() => {
+    uniforms.uSize.value = particleSize;
+  }, [particleSize]);
 
   // Dynamic morph controls
   const morphButtons = useMemo(() => {
@@ -208,12 +212,14 @@ function ParticlesModel({
 }
 
 function CanvasWrapper({ glbPath }: { glbPath?: string }) {
-  const { clearColor } = useControls("Appearance", { clearColor: "#160920" });
+  const { clearColor } = useControls("Appearance", {
+    clearColor: "#000000",
+  });
 
   return (
     <>
       <Canvas
-        camera={{ position: [5, 4, -3], fov: 55 }}
+        camera={{ position: [8, -1, 0], fov: 55 }}
         gl={{ antialias: true }}
       >
         <color attach="background" args={[clearColor]} />
