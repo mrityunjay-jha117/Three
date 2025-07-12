@@ -18,27 +18,27 @@ interface MouseBallProps {
 // Constants
 const SCENE_MIDDLE = new THREE.Vector3(0, 0, 0);
 const COLOR_PALETTE = [
-  0xf87171, // red-400
-  0xfb923c, // orange-400
-  0xfbbf24, // amber-400
-  0xfacc15, // yellow-400
-  0xa3e635, // lime-400
-  0x4ade80, // green-400
-  0x34d399, // emerald-400
-  0x2dd4bf, // teal-400
-  0x22d3ee, // cyan-400
-  0x38bdf8, // sky-400
-  0x60a5fa, // blue-400
-  0x818cf8, // indigo-400
-  0xa78bfa, // violet-400
-  0xc084fc, // purple-400
-  0xe879f9, // fuchsia-400
-  0xf472b6, // pink-400
-  0xfb7185, // rose-400
-  0x94a3b8, // slate-400
-  0x9ca3af, // gray-400
-  0xa3a3a3, // neutral-400
-  0xa8a29e, // stone-400
+  0xef4444, // red-500
+  0xf97316, // orange-500
+  0xf59e0b, // amber-500
+  0xeab308, // yellow-500
+  0x84cc16, // lime-500
+  0x22c55e, // green-500
+  0x10b981, // emerald-500
+  0x14b8a6, // teal-500
+  0x06b6d4, // cyan-500
+  0x0ea5e9, // sky-500
+  0x3b82f6, // blue-500
+  0x6366f1, // indigo-500
+  0x8b5cf6, // violet-500
+  0xa855f7, // purple-500
+  0xd946ef, // fuchsia-500
+  0xec4899, // pink-500
+  0xf43f5e, // rose-500
+  0x64748b, // slate-500
+  0x6b7280, // gray-500
+  0x737373, // neutral-500
+  0x78716c, // stone-500
 ];
 
 // Physical Body Component
