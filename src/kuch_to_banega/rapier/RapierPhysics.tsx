@@ -98,7 +98,8 @@ const PhysicalBody: React.FC<BodyProps> = ({
       angularDamping={2.0}
     >
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.25, 16, 16]} />
+        <sphereGeometry args={[0.25, 16, 16]} />{" "}
+        {/* Reduced from 32,32 for better performance */}
         {/* <dodecahedronGeometry args={[0.25, 16]} /> */}
         <meshBasicMaterial color={color} />
       </mesh>
@@ -124,7 +125,7 @@ const MouseBall: React.FC<MouseBallProps> = ({ mousePosition }) => {
       position={[0, 0, 0]}
     >
       <mesh>
-        <sphereGeometry args={[0.1, 16, 16]} />
+        <sphereGeometry args={[0.05, 8, 8]} />
         <meshBasicMaterial color="white" />
       </mesh>
     </RigidBody>
@@ -170,7 +171,7 @@ const PhysicsScene: React.FC = () => {
   // Generate random bodies
   const bodies = useMemo(() => {
     const bodyArray = [];
-    const numBodies = 50;
+    const numBodies = 30;
     const range = 12;
 
     for (let i = 0; i < numBodies; i++) {
