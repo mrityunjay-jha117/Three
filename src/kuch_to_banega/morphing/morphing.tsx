@@ -213,7 +213,7 @@ function CanvasWrapper({ glbPath }: { glbPath?: string }) {
   return (
     <>
       <Canvas
-        camera={{ position: [10, 0, 0], fov: 35 }}
+        camera={{ position: [5, 4, -3], fov: 55 }}
         gl={{ antialias: true }}
       >
         <color attach="background" args={[clearColor]} />
