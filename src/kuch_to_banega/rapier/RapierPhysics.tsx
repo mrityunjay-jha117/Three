@@ -3,12 +3,15 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { RigidBody, Physics, RapierRigidBody } from "@react-three/rapier";
 import * as THREE from "three";
+import { useTexture } from "@react-three/drei";
+import { Decal } from "@react-three/drei";
 
 // Types
 interface BodyProps {
   position: [number, number, number];
   color: number;
   mousePosition: THREE.Vector3;
+  textureUrl?: string;
 }
 
 interface MouseBallProps {
@@ -20,23 +23,14 @@ const SCENE_MIDDLE = new THREE.Vector3(0, 0, 0);
 const COLOR_PALETTE = [
   0xf87171, // red-400
   0xfb923c, // orange-400
-  0xfbbf24, // amber-400
   0xfacc15, // yellow-400
-  0xa3e635, // lime-400
   0x4ade80, // green-400
   0x34d399, // emerald-400
-  0x2dd4bf, // teal-400
-  0x22d3ee, // cyan-400
   0x60a5fa, // blue-400
   0x818cf8, // indigo-400
-  0xa78bfa, // violet-400
   0xc084fc, // purple-400
-  0xe879f9, // fuchsia-400
   0xf472b6, // pink-400
-  0xfb7185, // rose-400
   0x94a3b8, // slate-400
-  0x9ca3af, // gray-400
-  0xa3a3a3, // neutral-400
 ];
 
 // Physical Body Component
@@ -47,6 +41,7 @@ const PhysicalBody: React.FC<BodyProps> = ({
 }) => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
   const meshRef = useRef<THREE.Mesh>(null);
+  const logoTexture = useTexture("/textures/10.png");
 
   useFrame(() => {
     if (!rigidBodyRef.current || !meshRef.current) return;
@@ -96,10 +91,15 @@ const PhysicalBody: React.FC<BodyProps> = ({
       angularDamping={2.0}
     >
       <mesh ref={meshRef}>
-        <sphereGeometry args={[0.25, 16, 16]}  />
-  
-
-        <meshBasicMaterial wireframe color={color}/>
+        <sphereGeometry args={[0.3, 32, 32]} />
+        <meshStandardMaterial color={color} depthTest depthWrite />
+        <Decal
+          map={logoTexture}
+          position={[0, 0, 0.3]}
+          rotation={[0, 0, 0]}
+          scale={0.3}
+          depthTest={true}
+        />
       </mesh>
     </RigidBody>
   );
@@ -108,25 +108,48 @@ const PhysicalBody: React.FC<BodyProps> = ({
 // Mouse Ball Component
 const MouseBall: React.FC<MouseBallProps> = ({ mousePosition }) => {
   const rigidBodyRef = useRef<RapierRigidBody>(null);
+  const lightRef = useRef<THREE.PointLight>(null);
 
   useFrame(() => {
     if (rigidBodyRef.current) {
       rigidBodyRef.current.setTranslation(mousePosition, true);
     }
+    if (lightRef.current) {
+      lightRef.current.position.copy(mousePosition);
+    }
   });
 
   return (
-    <RigidBody
-      ref={rigidBodyRef}
-      type="kinematicPosition"
-      colliders="ball"
-      position={[0, 0, 0]}
-    >
-      <mesh>
-        {/* <sphereGeometry args={[0.05, 4, 4]} /> */}
-        {/* <meshLambertMaterial color="white" /> */}
+    <>
+      <RigidBody
+        ref={rigidBodyRef}
+        type="kinematicPosition"
+        colliders="ball"
+        position={[0, 0, 0]}
+      />
+      {/* Glowing bulb mesh at mouse position */}
+      <mesh position={mousePosition}>
+        <sphereGeometry args={[0.08, 24, 24]} />
+        <meshPhysicalMaterial
+          color={0xffffcc}
+          emissive={0xffffaa}
+          emissiveIntensity={1.5}
+          roughness={0.2}
+          metalness={0.1}
+          transparent={true}
+          opacity={0.95}
+        />
       </mesh>
-    </RigidBody>
+      <pointLight
+        ref={lightRef}
+        position={mousePosition}
+        intensity={10}
+        distance={3}
+        decay={2}
+        color={0xffffff}
+        castShadow={true}
+      />
+    </>
   );
 };
 
@@ -182,10 +205,14 @@ const PhysicsScene: React.FC = () => {
       const color =
         COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)];
 
+      // Assign the same image to all balls
+      const textureUrl = "/textures/10.png";
+
       bodyArray.push({
         key: i,
         position,
         color,
+        textureUrl,
       });
     }
 
@@ -198,7 +225,6 @@ const PhysicsScene: React.FC = () => {
       <mesh ref={mousePlaneRef} position={[0, 0, 0.2]}>
         <planeGeometry args={[48, 48]} />
         <meshLambertMaterial transparent opacity={0} />
-
       </mesh>
 
       {/* Physical bodies */}
@@ -208,6 +234,7 @@ const PhysicsScene: React.FC = () => {
           position={body.position}
           color={body.color}
           mousePosition={mousePosition}
+          textureUrl={body.textureUrl}
         />
       ))}
 
@@ -215,7 +242,7 @@ const PhysicsScene: React.FC = () => {
       <MouseBall mousePosition={mousePosition} />
 
       {/* Better lighting for 3D appearance */}
-      <ambientLight intensity={0.4} />
+      <ambientLight intensity={4} />
     </Physics>
   );
 };

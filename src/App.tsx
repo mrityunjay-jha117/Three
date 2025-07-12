@@ -208,10 +208,12 @@
 // }
 
 import RapierPhysics from "./kuch_to_banega/rapier/RapierPhysics";
+import Ball from "./ball";
 export default function App() {
   return (
     <div className="w-full h-screen overflow-hidden">
       <RapierPhysics />
+      {/* <Ball /> */}
     </div>
   );
 } 
